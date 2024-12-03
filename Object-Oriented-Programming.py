@@ -19,6 +19,8 @@ class enzymes:
             self.function=self.function_C
         elif type == 'A':
             self.function=self.function_apoptosis
+        else:
+            print('error', type ,'not an option')
 
 
     def function_k1(self,input):
@@ -72,11 +74,10 @@ class enzymes:
         input=[input]
         x=sum(input)/len(input)
         if x > self.threshold:
-            output= 'true'
+            output= 1
         else:
-            output = 'false'
-        print(output)
-        return output
+            output = 0       
+        return bool(output)
     
     def run_function(self,input):
         output=self.function(input)
@@ -84,7 +85,7 @@ class enzymes:
     
 
 def simulation(r1,r2):
-    k1=enzymes('k1',1)
+    k1=enzymes('k11',1)
     k2=enzymes('k2',0.2)
     k3=enzymes('k3',0.01)
     p1=enzymes('p1',0.1)
@@ -100,7 +101,10 @@ def simulation(r1,r2):
     f=A.run_function(e)
     return f
 
-output = simulation(0.4,0.6)
+#output = simulation(0.4,0.6) #onze false  ook false
+#output = simulation(0.7,0.8) #onze true   ook true
+output = simulation(0.9,0.9) #onze false   ook false
+print(output)
 
 
             
