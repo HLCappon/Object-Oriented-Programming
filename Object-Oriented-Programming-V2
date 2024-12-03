@@ -1,37 +1,33 @@
 #### let op als p1 geactiveerd wordt word k3 juist gedeactiveerd ipv geactiveerd
 
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 
-class enzymes:
-    def __init__(self,type,threshold):
+
+class enzymes: #creating parent class enzymes which holds the 
+    def __init__(self,threshold):
         self.threshold=threshold
-        if type == 'k1':
-            self.function=self.function_k1
-        elif type == 'k2':
-            self.function=self.function_k2
-        elif type == 'k3':
-            self.function=self.function_k3
-        elif type == 'p1':
-            self.function=self.function_p1
-        elif type == 'C':
-            self.function=self.function_C
-        elif type == 'A':
-            self.function=self.function_apoptosis
-        else:
-            print('error', type ,'not an option')
+        
+    def function(self):
+        pass
+    
 
-
-    def function_k1(self,input):
+class k1(enzymes): #create class of enzyme k1
+    def __init__(self,threshold):
+        super().__init__(threshold)
+    
+    def activation_function_k1(self,input): #define 
         value=sum(input)
         if value> self.threshold:
             output=value
         else:
             output=0
         return output
-    
-    def function_k2(self,input):
+
+class k2(enzymes):
+    def __init__(self,threshold):
+        super().__init__(threshold)
+
+    def activation_function_k2(self,input):
         input=[input]
         x=sum(input)/len(input)
         if x > self.threshold:
@@ -40,19 +36,26 @@ class enzymes:
         else:
             output=0
         return output
+
+class k3(enzymes):
+    def __init__(self,threshold):
+        super().__init__(threshold)
     
-    def function_k3(self,input):
+    def activation_function_k3(self,input):
         input=[input]
         x=sum(input)/len(input)
         if x > self.threshold:
             value = x-self.threshold
             output=value
-            print(output)
         else:
             output=0
         return output
     
-    def function_p1(self,input):
+class p1(enzymes):
+    def __init__(self,threshold):
+        super().__init__(threshold)
+
+    def activation_function_p1(self,input):
         input=[input]
         x=sum(input)/len(input)
         if x > self.threshold:
@@ -61,47 +64,52 @@ class enzymes:
         else:
             output = 0
         return output
-    
-    def function_C(self,input):
+
+class c(enzymes):
+    def __init__(self,threshold):
+        super().__init__(threshold)
+
+    def activation_function_c(self,input):
         x=min(input)
         if x >self.threshold:
             output=x
         else:
             output=0
         return output
-    
-    def function_apoptosis(self,input):
+
+class a(enzymes):
+    def __init__(self,threshold):
+        super().__init__(threshold)
+
+    def activation_function_a(self,input):
         input=[input]
         x=sum(input)/len(input)
         if x > self.threshold:
             output= 1
         else:
-            output = 0       
+            output = 0
+        print(output)       
         return bool(output)
-    
-    def run_function(self,input):
-        output=self.function(input)
-        return output
-    
 
 def simulation(r1,r2):
-    k1=enzymes('k11',1)
-    k2=enzymes('k2',0.2)
-    k3=enzymes('k3',0.01)
-    p1=enzymes('p1',0.1)
-    C=enzymes('C',0.15)
-    A=enzymes('A',0.1)
+    enzyme_K1=k1(1)
+    enzyme_K2=k2(0.2)
+    enzyme_K3=k3(0.01)
+    enzyme_P1=p1(0.1)
+    enzyme_C=c(0.15)
+    apoptose=a(0.1)
+
     input=[r1,r2]
-    a=k1.run_function(input)
-    b=p1.run_function(a)
-    c=k2.run_function(a)
-    d=k3.run_function(b)
-    cd=[c,d]
-    e=C.run_function(cd)
-    f=A.run_function(e)
+    z=enzyme_K1.activation_function_k1(input)
+    b=enzyme_P1.activation_function_p1(z)
+    q=enzyme_K2.activation_function_k2(z)
+    d=enzyme_K3.activation_function_k3(b)
+    cd=[q,d]
+    e=enzyme_C.activation_function_c(cd)
+    f=apoptose.activation_function_a(e)
     return f
 
-#output = simulation(0.4,0.6) #onze false  ook false
-#output = simulation(0.7,0.8) #onze true   ook true
-output = simulation(0.9,0.9) #onze false   ook false
-print(output)
+simulation(0.7,0.8)
+    
+
+
